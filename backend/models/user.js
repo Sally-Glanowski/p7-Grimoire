@@ -4,3 +4,5 @@ const userSchema = mongoose.Schema({
     email: { type: String, required: true, unique: true }, 
     password: {type: String, required: true },
   });
+  userSchema.plugin(uniquevalidateur)
+module.exports= mongoose("userSchema");
