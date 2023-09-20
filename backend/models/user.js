@@ -7,4 +7,4 @@ const userSchema = mongoose.Schema({
   });
   userSchema.plugin(uniqueValidateur);
 
-module.exports= mongoose("userSchema");
+module.exports= mongoose("User", userSchema);
