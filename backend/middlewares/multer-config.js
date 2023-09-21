@@ -7,6 +7,9 @@ const formatImages = {
   "image/webp": "webp",
 };
 const storage = multer.diskStorage({
-    destination: (req, callback) => {
+    destination: (req, file, callback) => {
       callback(null, "images");
-   
+    },
+    filename: (req, file, callback) => {
+      const name = file.originalname.join("_");
+      
