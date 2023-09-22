@@ -1,7 +1,7 @@
 const photo = require("photo");
 const fs = require("fs");
 
-const photoconfig = async (req, res, next) => {
+const photoConfig = async (req, res, next) => {
   if (!req.file) {
     return next();
   }
@@ -16,7 +16,7 @@ const photoconfig = async (req, res, next) => {
       .toFile(newPath);
 
   
-    fs.unlink(req.file.path, (err) => 
+    fs.unlink(req.file.path, (err) => {
       if (err) {
         console.error("Erreur lors de la suppression de l'image d'origine:", err);
       }
