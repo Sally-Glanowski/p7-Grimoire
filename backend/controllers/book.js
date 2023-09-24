@@ -41,3 +41,15 @@ exports.createBook = (req, res, next) => {
       res.status(400).json({ error });
     });
 };
+exports.updateBook = (req, res, next) => {
+    const bookObject = req.file
+      ? {
+          // si le fichier est téléchargé, l'objet livre se crée avec la nouvelle url de l'image
+          ...JSON.parse(req.body),
+          imageUrl: `${req.protocol}://${req.get("host")}/images/${
+            req.file.filename.split(".")[0]
+          }.webp`,
+        }
+      : { ...req.body }; // sinon,  utilisation du book existant du corps de la requête
+    delete bookObject._userId; // supprime la propriété userid de l'objet livre
+  
