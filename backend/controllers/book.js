@@ -68,6 +68,7 @@ exports.updateBook = (req, res, next) => {
       .then(res.status(200).json({ message: "Livre modifié ! " }))
       .catch((error) => res.status(400).json({ error }));
   })
+  .catch((error) => res.status(400).json({ error }));
 };
 
 exports.deleteBook = (req, res, next) => {
@@ -112,11 +113,13 @@ if (user !== req.auth.userId) {
 
         function calcAverageRating(ratings) {
           // Calcule la note moyenne
-          const sumRatings = ratings(
+          const sumRatings = ratings.reduce(
             (total, rate) => total + rate.grade,
             0
           );
-        
+          const average = sumRatings / ratings.length;
+          return parseFloat(average.toFixed(2)); // Arrondir la moyenne à 2 décimales
+        }
 
         // Met à jour le document du livre
         Book.findOneAndUpdate(
@@ -133,6 +136,6 @@ if (user !== req.auth.userId) {
           .catch((error) => res.status(401).json({ error }));
       }
     })
-    .catch((error) => res.status(401)({ error }))
+    .catch((error) => res.status(401).json({ error }));
 }
 };
