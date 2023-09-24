@@ -1,7 +1,7 @@
-const photo = require("photo");
+const sharp = require("sharp");
 const fs = require("fs");
 
-const photoConfig = async (req, res, next) => {
+const sharpConfig = async (req, res, next) => {
   if (!req.file) {
     return next();
   }
@@ -10,7 +10,7 @@ const photoConfig = async (req, res, next) => {
   const newPath = `${req.file.destination}/${fileName}.webp`;
 
   try {
-    await photo(req.file.path)
+    await sharp(req.file.path)
       .resize({ width: 400, height: 500, fit: photo.fit.inside })
       .webp()
       .toFile(newPath);
@@ -32,4 +32,4 @@ const photoConfig = async (req, res, next) => {
   }
 };
 
-module.exports = photoConfig;
+module.exports = sharpConfig;
