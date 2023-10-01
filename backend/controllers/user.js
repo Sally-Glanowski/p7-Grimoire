@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const fetch = require("node-fetch"); 
+//const fetch = require("node-fetch"); 
 const User = require("../models/user");
 
 exports.signup = (req, res, next) => {
@@ -28,11 +28,14 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+  console.log('connection reussie');
   User.findOne({ email: req.body.email })
+  
     .then((user) => {
       if (!user) {
-        return res.status(401).json({ error: "Utilisateur inconnu!" });
-      }
+        return res.status(200).json({ error: "Utilisateur inconnu!" });
+      };
+      
       bcrypt
         .compare(req.body.password, user.password)
         .then((valid) => {
@@ -41,8 +44,8 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id,
-            token: jwt.sign({ userId: user._id }, process.env.TOKEN, {
-              expiresIn: "1h",
+            token: jwt.sign({ userId: user._id }, "montoken", {
+              expiresIn: "1h"
             }),
           });
         })
