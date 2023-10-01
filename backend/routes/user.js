@@ -1,11 +1,12 @@
-const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
+const express = require("express");
 
-const userSchema = mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-});
+const router = express.Router();
 
-userSchema.plugin(uniqueValidator);
+const userCtrl = require("../controllers/user");
+const emailValidator = require("../middlewares/email-validator");
+const passwordValidator = require("../middlewares/password-validator");
 
-module.exports = mongoose.model("User", userSchema);
+router.post("/signup", emailValidator, passwordValidator, userCtrl.signup);
+router.post("/login", userCtrl.login);
+
+module.exports = router;
