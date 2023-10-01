@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
       passwordSchema.validate(userPassword, { list: true })
     );
     return res.status(400).json({
-      error: `Mot de passe insiffusant ${passwordSchema.validate(userPassword, {
+      error: `Mot de passe insuffisant ${passwordSchema.validate(userPassword, {
         list: true,
       })}`,
     });
