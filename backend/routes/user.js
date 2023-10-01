@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const userCtrl = require("../controllers/user");
-const emailValidateur = require("../middlewares/email-validateur");
+const emailValidateur = require("../middlewares/validateur-email");
 const passwordValidateur = require("../middlewares/password-validateur");
 
 router.post("/signup", emailValidateur, passwordValidateur, userCtrl.signup);

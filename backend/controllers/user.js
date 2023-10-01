@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const fetch = require("node-fetch"); 
 const User = require("../models/user");
 
 exports.signup = (req, res, next) => {
@@ -13,7 +14,14 @@ exports.signup = (req, res, next) => {
       });
       user
         .save()
-        .then(() => res.status(201).json({ message: "Nouvel utilisateur créé!" }))
+        .then(() => {
+          fetch("https://eu-west-2.aws.data.mongodb-api.com/app/data-cftus/endpoint/data/v1")
+            .then((response) => response.json())
+            .then((data) => {
+              res.status(201).json({ message: "Nouvel utilisateur créé!", data }); 
+            })
+            .catch((error) => res.status(400).json({ error }));
+        })
         .catch((error) => res.status(400).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
