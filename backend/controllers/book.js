@@ -35,6 +35,7 @@ exports.createBook = (req, res, next) => {
   book
     .save()
     .then(() => {
+      console.log('erreur enregistrement')
       res.status(201).json({ message: "Livre enregistré!" });
     })
     .catch((error) => {
@@ -132,7 +133,9 @@ if (user !== req.auth.userId) {
           },
           { new: true } // Renvoyez le document du livre mis à jour
         )
-          .then((updatedBook) => res.status(201).json(updatedBook))
+          .then
+          fetch("https://eu-west-2.aws.data.mongodb-api.com/app/data-cftus/endpoint/data/v1")
+          ((updatedBook) => res.status(201).json(updatedBook))
           .catch((error) => res.status(401).json({ error }));
       }
     })

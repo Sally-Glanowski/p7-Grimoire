@@ -11,7 +11,7 @@ function formatBooks(bookArray) {
 }
 
 export function storeInLocalStorage(token, userId) {
-  localStorage.setItem('token', token);
+  localStorage.setItem('tokengrimoire', token);
   localStorage.setItem('userId', userId);
 }
 
@@ -22,7 +22,7 @@ export function getFromLocalStorage(item) {
 export async function getAuthenticatedUser() {
   const defaultReturnObject = { authenticated: false, user: null };
   try {
-    const token = getFromLocalStorage('token');
+    const token = getFromLocalStorage('tokengrimoire');
     const userId = getFromLocalStorage('userId');
     if (!token) {
       return defaultReturnObject;
@@ -81,7 +81,7 @@ export async function deleteBook(id) {
   try {
     await axios.delete(`${API_ROUTES.BOOKS}/${id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('tokengrimoire')}`,
       },
     });
     return true;
@@ -100,7 +100,7 @@ export async function rateBook(id, userId, rating) {
   try {
     const response = await axios.post(`${API_ROUTES.BOOKS}/${id}/rating`, data, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('tokengrimoire')}`,
       },
     });
     const book = response.data;
@@ -137,7 +137,7 @@ export async function addBook(data) {
       url: `${API_ROUTES.BOOKS}`,
       data: bodyFormData,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('tokengrimoire')}`,
       },
     });
   } catch (err) {
@@ -172,7 +172,7 @@ export async function updateBook(data, id) {
       url: `${API_ROUTES.BOOKS}/${id}`,
       data: newData,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('tokengrimoire')}`,
       },
     });
     return newBook;
