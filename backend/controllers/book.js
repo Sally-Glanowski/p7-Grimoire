@@ -1,5 +1,8 @@
 const Book = require("../models/book");
 const fs = require("fs");
+const fetch = require('node-fetch');
+const DB_URL = process.env.DB_URL;
+
 
 exports.getAllBooks = (req, res, next) => {
   Book.find()
@@ -134,7 +137,7 @@ if (user !== req.auth.userId) {
           { new: true } // Renvoyez le document du livre mis à jour
         )
           .then
-          fetch("https://eu-west-2.aws.data.mongodb-api.com/app/data-cftus/endpoint/data/v1")
+          fetch(DB_URL)
           ((updatedBook) => res.status(201).json(updatedBook))
           .catch((error) => res.status(401).json({ error }));
       }

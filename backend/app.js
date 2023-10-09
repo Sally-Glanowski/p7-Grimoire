@@ -13,7 +13,7 @@ const app = express();
 app.use(bodyParser.json());
 mongoose
   .connect(
-    "mongodb+srv://sallyG:p7@cluster0.9gb0lfj.mongodb.net/?retryWrites=true&w=majority",
+    process.env.DB_URL,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))

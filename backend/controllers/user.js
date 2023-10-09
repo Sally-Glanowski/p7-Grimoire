@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 //const fetch = require("node-fetch"); 
 const User = require("../models/user");
+require('dotenv').config();
 
 exports.signup = (req, res, next) => {
   console.log(req);
@@ -15,7 +16,7 @@ exports.signup = (req, res, next) => {
       user
         .save()
         .then(() => {
-          fetch("https://eu-west-2.aws.data.mongodb-api.com/app/data-cftus/endpoint/data/v1")
+          fetch(process.env.API_URL)
             .then((response) => response.json())
             .then((data) => {
               res.status(201).json({ message: "Nouvel utilisateur créé!", data }); 
@@ -44,7 +45,7 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id,
-            token: jwt.sign({ userId: user._id }, "montoken", {
+            token: jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
               expiresIn: "1h"
             }),
           });
