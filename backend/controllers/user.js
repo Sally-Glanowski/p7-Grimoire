@@ -44,7 +44,7 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id,
-            token: jwt.sign({ userId: user._id }, "tokengrimoire", {
+            token: jwt.sign({ userId: user._id }, "montoken", {
               expiresIn: "1h"
             }),
           });

@@ -1,9 +1,9 @@
 const passwordValidator = require("password-validator");
 
-// Créez le schéma de validation du mot de passe ici
+// Créé le schéma de validation du mot de passe ici
 const passwordSchema = new passwordValidator();
 
-// Ajoutez les règles de validation du mot de passe
+// Ajoute les règles de validation du mot de passe
 passwordSchema
   .is()
   .min(8)

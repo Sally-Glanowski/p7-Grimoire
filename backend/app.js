@@ -3,7 +3,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-
+require('dotenv').config();
+/* eslint-disable */
 const bookRoutes = require("./routes/book");
 const userRoutes = require("./routes/user");
 const bodyParser = require("body-parser");
