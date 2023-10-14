@@ -1,35 +1,32 @@
-const sharp = require("sharp");
-const fs = require("fs");
+const { v4: uuidv4 } = require('uuid');
 
-const sharpConfig = async (req, res, next) => {
+const sharp = require('sharp');
+const MIME_TYPES = {
+  'image/jpg': 'jpg',
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+};
+module.exports = (req, res, next) => {
   if (!req.file) {
     return next();
   }
 
-  const fileName = req.file.filename.split(".")[0];
-  const newPath = `${req.file.destination}/${fileName}.webp`;
+  const randomName = uuidv4();
+  const extension = MIME_TYPES[req.file.mimetype];
 
-  try {
-    await sharp(req.file.path)
-      .resize({ width: 400, height: 500, fit: photo.fit.inside })
-      .webp()
-      .toFile(newPath);
-
-  
-    fs.unlink(req.file.path, (err) => {
-      if (err) {
-        console.error("Erreur lors de la suppression de l'image d'origine:", err);
-      }
-    });
-
-   
-    req.file.path = newPath;
-    req.file.filename = `${fileName}.webp`;
-
-    next();
-  } catch (error) {
-    res.status(500).json({ error: "Échec de l'optimisation de l'image" });
+  if (!req.file.mimetype.match(/\/(png|jpg|jpeg)$/)) {
+    return next();
   }
-};
 
-module.exports = sharpConfig;
+  sharp(req.file.buffer)
+    .png({ quality: 60 })
+
+    .toFile(`./images/${randomName}.${extension}`)
+    .then((data) => {
+      req.file.name = `${randomName}.${extension}`;
+      next();
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
