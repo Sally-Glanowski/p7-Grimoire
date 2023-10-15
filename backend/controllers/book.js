@@ -95,9 +95,7 @@ Book.findOne({ _id: req.params.id })
 
 exports.rateBook = (req, res, next) => {
 const user = req.body.userId;
-if (user !== req.auth.userId) {
-  res.status(401).json({ message: "Non autorisé" });
-} else {
+console.warn(req.auth.userId);
   Book.findOne({ _id: req.params.id }) // Recherche le livre par ID
     .then((book) => {
       if (book.ratings.find((rating) => rating.userId === user)) {
@@ -135,11 +133,10 @@ if (user !== req.auth.userId) {
           { new: true } // Renvoyez le document du livre mis à jour
         )
           .then
-          fetch(DB_URL)
           ((updatedBook) => res.status(201).json(updatedBook))
-          .catch((error) => res.status(401).json({ error }));
+          .catch((error) => res.status(403).json({ error }));
       }
     })
-    .catch((error) => res.status(401).json({ error }));
-}
+    .catch((error) => res.status(405).json({ error }));
+
 };
